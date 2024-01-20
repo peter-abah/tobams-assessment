@@ -4,7 +4,12 @@ import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 const MainLayout = ({ children }) => {
   const bottomTabBarHeight = useBottomTabBarHeight();
   return (
-    <View style={{ marginTop: StatusBar.currentHeight, marginBottom: bottomTabBarHeight + 170 }}>
+    <View
+      style={{
+        paddingTop: StatusBar.currentHeight,
+        paddingBottom: bottomTabBarHeight,
+      }}
+    >
       {children}
     </View>
   );

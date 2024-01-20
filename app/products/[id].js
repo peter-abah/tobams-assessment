@@ -1,15 +1,15 @@
-import { Text, View, Pressable, Image, ScrollView, StyleSheet } from "react-native";
-import { Link, useLocalSearchParams, router } from "expo-router";
-import Back from "../../components/icons/Back";
+import { Text, View, Pressable, ScrollView, StyleSheet } from "react-native";
+import { useLocalSearchParams } from "expo-router";
 import { useSelector } from "react-redux";
 import globalStyles, { COLOR_VARIABLES } from "../../globalStyles";
 import { createListOfNodes } from "../../lib/helper";
+import Image from "../../components/Image";
 import Accordion from "../../components/Accordion";
 import PageHeader from "../../components/PageHeader";
 import MainLayout from "../../components/MainLayout";
 import { useState } from "react";
-import Minus from "../../components/icons/Minus";
-import Plus from "../../components/icons/Plus";
+
+import OrderCountUpdate from "../../components/OrderCountUpdate";
 
 const PRODUCT_IMAGES_NO = 3;
 const MAX_PRODUCT_DESCRIPTION_CHARACTER_NO = 190;
@@ -39,9 +39,10 @@ export default function Page() {
 
         <ScrollView>
           <View style={{ gap: 24, marginTop: 18 }}>
-            <View style={{ aspectRatio: 1, marginHorizontal: 24, borderRadius: 16 }}>
-              <Image source={product.imageSource} style={globalStyles.image} />
-            </View>
+            <Image
+              style={{ aspectRatio: 1, marginHorizontal: 24, borderRadius: 16 }}
+              imageProps={{ source: product.imageSource }}
+            />
 
             <View style={{ flexDirection: "row", gap: 8, justifyContent: "center" }}>
               {createListOfNodes(
@@ -87,7 +88,7 @@ export default function Page() {
           />
 
           <View style={{ marginHorizontal: 24, marginTop: 40 }}>
-            <View
+            {/* <View
               style={{
                 flexDirection: "row",
                 justifyContent: "space-between",
@@ -103,15 +104,26 @@ export default function Page() {
               <Pressable onPress={incrementOrderCount} style={styles.orderButton}>
                 <Plus />
               </Pressable>
-            </View>
+            </View> */}
+            <OrderCountUpdate
+              orientation="horizontal"
+              size={"large"}
+              actions={{
+                onDecrementOrder: decrementOrderCount,
+                onIncrementOrder: incrementOrderCount,
+              }}
+              orderCount={orderCount}
+            />
 
             <View style={{ gap: 16, marginTop: 24 }}>
-              <Pressable style={[styles.ctaButton, { backgroundColor: COLOR_VARIABLES.brand }]}>
-                <Text style={{ color: "#fff" }}>Add to cart</Text>
+              <Pressable
+                style={[globalStyles.ctaButton, { backgroundColor: COLOR_VARIABLES.brand }]}
+              >
+                <Text style={[globalStyles.ctaButtonText, { color: "#fff" }]}>Add to cart</Text>
               </Pressable>
               <Pressable
                 style={[
-                  styles.ctaButton,
+                  globalStyles.ctaButton,
                   {
                     borderColor: COLOR_VARIABLES.brand,
                     borderWidth: 1,
@@ -140,16 +152,5 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#fff",
-  },
-  ctaButton: {
-    padding: 10,
-    borderRadius: 50,
-    height: 48,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  ctaButtonText: {
-    fontWeight: 500,
-    fontSize: 14,
   },
 });

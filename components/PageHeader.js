@@ -9,10 +9,9 @@ const PageHeader = ({ showBackButton, title, showBorder }) => {
       style={[
         {
           marginTop: 24,
-          marginBottom: 12,
-          paddingHorizontal: 24,
-          paddingVertical: 2,
-          height: 40,
+          paddingBottom: 12,
+          paddingHorizontal: 24.5,
+          position: "relative",
         },
         showBorder && {
           borderBottomColor: COLOR_VARIABLES.border,
@@ -21,22 +20,30 @@ const PageHeader = ({ showBackButton, title, showBorder }) => {
         },
       ]}
     >
-      {showBackButton && (
-        <Pressable
-          onPress={() => router.back()}
-          style={{
-            padding: 8,
-            borderRadius: 8,
-            backgroundColor: "#fff",
-            flex: undefined,
-            width: 36,
-            aspectRatio: 1,
-          }}
-        >
-          <Back />
-        </Pressable>
-      )}
-      {title && <Text style={{ textAlign: "center", fontSize: 14, fontWeight: 500 }}>{title}</Text>}
+      <View style={{ height: 40, flexDirection: "row", alignItems: "center", position: "relative" }}>
+        {showBackButton && (
+          <Pressable
+            onPress={() => router.back()}
+            style={{
+              padding: 8,
+              borderRadius: 8,
+              backgroundColor: "#fff",
+              flex: undefined,
+              width: 36,
+              aspectRatio: 1,
+              position: "absolute",
+              top: 2,
+            }}
+          >
+            <Back />
+          </Pressable>
+        )}
+        {title && (
+          <Text style={{ textAlign: "center", fontSize: 14, fontWeight: 500, width: "100%" }}>
+            {title}
+          </Text>
+        )}
+      </View>
     </View>
   );
 };

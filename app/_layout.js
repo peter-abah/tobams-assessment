@@ -11,6 +11,7 @@ export default function AppLayout() {
     <Provider store={store}>
       <Tabs
         initialRouteName="index"
+        backBehavior="history"
         screenOptions={{
           tabBarLabelStyle: { fontSize: 14 },
           headerShown: false,

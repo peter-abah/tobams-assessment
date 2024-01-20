@@ -1,29 +1,23 @@
-import {
-  FlatList,
-  Text,
-  TextInput,
-  View,
-  Image,
-  StyleSheet,
-  Pressable,
-} from "react-native";
+import { FlatList, Text, TextInput, View, Image, StyleSheet, Pressable } from "react-native";
 import { Link } from "expo-router";
 import { useSelector, useDispatch } from "react-redux";
 import { addToFavorites, removeFromFavorites } from "../lib/features/products/productsSlice";
+import { addItem } from "../lib/features/cart/cartSlice";
 import globalStyles from "../globalStyles";
 import MainLayout from "../components/MainLayout";
-import PageHeader from "../components/PageHeader"
+import PageHeader from "../components/PageHeader";
 import ShoppingBag from "../components/icons/ShoppingBag";
 import Search from "../components/icons/Search";
 import Heart from "../components/icons/Heart";
 
 export default function Page() {
   const products = useSelector((state) => state.products);
+  const dispatch = useDispatch();
 
   return (
     <MainLayout>
-      <View style={[styles.general]}>
-        <PageHeader title={'Menu'} showBorder />
+      <View>
+        <PageHeader title={"Menu"} showBorder />
         <View
           style={{
             flexDirection: "row",
@@ -104,6 +98,7 @@ export default function Page() {
                     alignItems: "center",
                     gap: 6,
                   }}
+                  onPress={() => dispatch(addItem({ ...item, orderCount: 1 }))}
                 >
                   <ShoppingBag stroke="white" />
                   <Text style={{ color: "white", fontSize: 12 }}>Add to cart</Text>
@@ -118,10 +113,6 @@ export default function Page() {
 }
 
 const styles = StyleSheet.create({
-  general: {
-    backgroundColor: "#f9f9f9",
-    color: "#000",
-  },
   font: {
     // fontFamily: "Poppins_400Regular",
   },

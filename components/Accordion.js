@@ -7,7 +7,7 @@ const Accordion = ({ items, style }) => {
   return (
     <View style={style}>
       {items.map((item) => (
-        <AccordionItem item={item} />
+        <AccordionItem key={item.title} item={item} />
       ))}
     </View>
   );
@@ -17,7 +17,7 @@ const AccordionItem = ({ item }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <View key={item.title}>
+    <View>
       <Pressable
         style={{
           flexDirection: "row",
