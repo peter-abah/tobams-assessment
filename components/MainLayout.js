@@ -6,8 +6,8 @@ const MainLayout = ({ children }) => {
   return (
     <View
       style={{
-        paddingTop: StatusBar.currentHeight,
-        paddingBottom: bottomTabBarHeight,
+        marginTop: StatusBar.currentHeight,
+        flex: 1,
       }}
     >
       {children}

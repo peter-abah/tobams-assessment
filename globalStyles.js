@@ -20,4 +20,5 @@ export const COLOR_VARIABLES = {
   black: "#131313",
   brand: "#DB3C25",
   textSubdued: "#4A4A4A",
+  fadeOutText: "#858585",
 };

@@ -1,7 +1,11 @@
 import { Pressable, View, Text } from "react-native";
 import Image from "./Image";
 import { useDispatch } from "react-redux";
-import { incrementOderCount, removeItem } from "../lib/features/cart/cartSlice";
+import {
+  incrementOrderCount,
+  decrementOrderCount,
+  removeItem,
+} from "../lib/features/cart/cartSlice";
 import Delete from "./icons/Delete";
 import OrderCountUpdate from "./OrderCountUpdate";
 import { COLOR_VARIABLES } from "../globalStyles";
@@ -31,8 +35,8 @@ const ProductOrderItem = ({ orderItem }) => {
           <Text style={{ fontSize: 14, fontWeight: 500 }} numberOfLines={1}>
             {orderItem.name}
           </Text>
-          <Text style={[styles.font, { color: "#DB3C25", fontWeight: "500" }]}>
-            £{orderItem.priceInPennies / 100}
+          <Text style={[styles.font, { color: COLOR_VARIABLES.brand, fontWeight: "500" }]}>
+            £{orderItem.price}
           </Text>
           <Pressable onPress={() => dispatch(removeItem(orderItem))}>
             <Delete />
@@ -42,11 +46,12 @@ const ProductOrderItem = ({ orderItem }) => {
       <OrderCountUpdate
         orderCount={orderItem.orderCount}
         actions={{
-          onDecrementCount: () => dispatch(incrementOderCount(orderItem)),
-          onIncrementCount: () => dispatch(decrementOderCount(orderItem)),
+          onDecrementCount: () => dispatch(decrementOrderCount(orderItem)),
+          onIncrementCount: () => dispatch(incrementOrderCount(orderItem)),
         }}
         size="normal"
         orientation="vertical"
+        isDecrementDisabled={orderItem.orderCount <= 1}
       />
     </View>
   );

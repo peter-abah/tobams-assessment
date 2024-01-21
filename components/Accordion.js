@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Pressable, View, Text, ScrollView } from "react-native";
+import { Pressable, View, Text, StyleSheet } from "react-native";
 import ArrowDown from "./icons/ArrowDown";
 import { COLOR_VARIABLES } from "../globalStyles";
 
@@ -18,24 +18,25 @@ const AccordionItem = ({ item }) => {
 
   return (
     <View>
-      <Pressable
-        style={{
-          flexDirection: "row",
-          gap: 24,
-          justifyContent: "space-between",
-          alignItems: "center",
-          paddingVertical: 10,
-          borderBottomColor: COLOR_VARIABLES.border,
-          borderBottomWidth: 1,
-          borderStyle: "solid",
-        }}
-        onPress={() => setIsOpen((prevState) => !prevState)}
-      >
+      <Pressable style={styles.itemTrigger} onPress={() => setIsOpen((prevState) => !prevState)}>
         <Text>{item.title}</Text>
         <ArrowDown style={[isOpen ? { transform: [{ rotateX: "180deg" }] } : {}]} />
       </Pressable>
-      <Text style={{ display: isOpen ? "block" : "none", marginTop: 8 }}>{item.information}</Text>
+      <Text style={{ display: isOpen ? "flex" : "none", marginTop: 8 }}>{item.information}</Text>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  itemTrigger: {
+    flexDirection: "row",
+    gap: 24,
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingVertical: 10,
+    borderBottomColor: COLOR_VARIABLES.border,
+    borderBottomWidth: 1,
+    borderStyle: "solid",
+  },
+});
 export default Accordion;

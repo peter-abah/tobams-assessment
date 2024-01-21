@@ -3,7 +3,15 @@ import { COLOR_VARIABLES } from "../globalStyles";
 import Minus from "./icons/Minus";
 import Plus from "./icons/Plus";
 
-const OrderCountUpdate = ({ style, orientation, size, actions, orderCount }) => {
+const OrderCountUpdate = ({
+  style,
+  orientation,
+  size,
+  actions,
+  orderCount,
+  isDecrementDisabled,
+  isIncrementDisabled,
+}) => {
   const { onIncrementOrder, onDecrementOrder } = actions;
   const sizeStyles = getStylesBasedOnSize(size);
 
@@ -16,12 +24,22 @@ const OrderCountUpdate = ({ style, orientation, size, actions, orderCount }) => 
         { flexDirection: orientation === "vertical" ? "column" : "row" },
       ]}
     >
-      <Pressable onPress={onDecrementOrder} style={[styles.orderButton, sizeStyles.orderButton]}>
-        <Minus />
+      <Pressable
+        onPress={onDecrementOrder}
+        style={[styles.orderButton, sizeStyles.orderButton]}
+        disabled={isDecrementDisabled}
+      >
+        <Minus stroke={isDecrementDisabled ? COLOR_VARIABLES.border : COLOR_VARIABLES.black} />
       </Pressable>
-      <Text style={[styles.orderText, sizeStyles.orderText]}>{orderCount}</Text>
-      <Pressable onPress={onIncrementOrder} style={[styles.orderButton, sizeStyles.orderButton]}>
-        <Plus />
+      <View style={[styles.orderTextWrapper, sizeStyles.orderTextWrapper]}>
+        <Text style={[styles.orderText, sizeStyles.orderText]}>{orderCount}</Text>
+      </View>
+      <Pressable
+        onPress={onIncrementOrder}
+        style={[styles.orderButton, sizeStyles.orderButton]}
+        disabled={isIncrementDisabled}
+      >
+        <Plus stroke={isIncrementDisabled ? COLOR_VARIABLES.border : COLOR_VARIABLES.black} />
       </Pressable>
     </View>
   );
@@ -42,6 +60,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   orderText: { fontSize: 14 },
+  orderTextWrapper: { justifyContent: "center", alignItems: "center" },
 });
 
 const getStylesBasedOnSize = (size) => {
@@ -73,6 +92,13 @@ const getStylesBasedOnSize = (size) => {
         orderText: {
           fontWeight: 500,
           color: COLOR_VARIABLES.textSubdued,
+          textAlign: "center",
+        },
+        orderTextWrapper: {
+          width: 32,
+          height: 32,
+          backgroundColor: "#fff",
+          borderRadius: 8,
         },
       });
   }

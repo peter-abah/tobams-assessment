@@ -1,6 +1,6 @@
 import { Text, View, Pressable, ScrollView, StyleSheet } from "react-native";
 import { useLocalSearchParams } from "expo-router";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import globalStyles, { COLOR_VARIABLES } from "../../globalStyles";
 import { createListOfNodes } from "../../lib/helper";
 import Image from "../../components/Image";
@@ -10,6 +10,7 @@ import MainLayout from "../../components/MainLayout";
 import { useState } from "react";
 
 import OrderCountUpdate from "../../components/OrderCountUpdate";
+import { addItem } from "../../lib/features/cart/cartSlice";
 
 const PRODUCT_IMAGES_NO = 3;
 const MAX_PRODUCT_DESCRIPTION_CHARACTER_NO = 190;
@@ -18,6 +19,7 @@ export default function Page() {
   const { id } = useLocalSearchParams();
   const product = useSelector((state) => state.products.find((p) => p.id === Number(id)));
   const [orderCount, setOrderCount] = useState(1);
+  const dispatch = useDispatch();
 
   const decrementOrderCount = () => {
     setOrderCount((prevState) => {
@@ -34,7 +36,7 @@ export default function Page() {
 
   return (
     <MainLayout>
-      <View>
+      <View style={{ flex: 1 }}>
         <PageHeader showBackButton />
 
         <ScrollView>
@@ -48,29 +50,27 @@ export default function Page() {
               {createListOfNodes(
                 ({ index }) => (
                   <Pressable
-                    style={{
-                      width: 8,
-                      aspectRatio: 1,
-                      backgroundColor: index === 0 ? COLOR_VARIABLES.brand : "#D9D9D9",
-                      borderRadius: 9999,
-                    }}
+                    style={[
+                      styles.imagesButton,
+                      { backgroundColor: index === 0 ? COLOR_VARIABLES.brand : "#D9D9D9" },
+                    ]}
                     key={index}
-                  ></Pressable>
+                  />
                 ),
                 PRODUCT_IMAGES_NO
               )}
             </View>
           </View>
 
-          <View style={{ marginHorizontal: 24, marginTop: 24 }}>
+          <View style={styles.textWrapper}>
             <View style={{ flexDirection: "row", gap: 16, justifyContent: "space-between" }}>
               <Text style={{ fontWeight: 500 }}>{product.name}</Text>
-              <Text style={{ fontWeight: 500, color: "#DB3C25" }}>
-                £{product.priceInPennies / 100}
+              <Text style={{ fontWeight: 500, color: COLOR_VARIABLES.brand }}>
+                £{product.price}
               </Text>
             </View>
 
-            <Text style={{ fontSize: 12, color: "#4A4A4A", marginTop: 8 }}>
+            <Text style={{ fontSize: 12, color: COLOR_VARIABLES.textSubdued, marginTop: 8 }}>
               {product.description}
             </Text>
           </View>
@@ -88,23 +88,6 @@ export default function Page() {
           />
 
           <View style={{ marginHorizontal: 24, marginTop: 40 }}>
-            {/* <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <Pressable onPress={decrementOrderCount} style={styles.orderButton}>
-                <Minus />
-              </Pressable>
-              <Text style={{ fontSize: 14, fontWeight: 600, color: COLOR_VARIABLES.black }}>
-                {orderCount}
-              </Text>
-              <Pressable onPress={incrementOrderCount} style={styles.orderButton}>
-                <Plus />
-              </Pressable>
-            </View> */}
             <OrderCountUpdate
               orientation="horizontal"
               size={"large"}
@@ -113,11 +96,13 @@ export default function Page() {
                 onIncrementOrder: incrementOrderCount,
               }}
               orderCount={orderCount}
+              isDecrementDisabled={orderCount <= 1}
             />
 
             <View style={{ gap: 16, marginTop: 24 }}>
               <Pressable
                 style={[globalStyles.ctaButton, { backgroundColor: COLOR_VARIABLES.brand }]}
+                onPress={() => dispatch(addItem({ ...product, orderCount }))}
               >
                 <Text style={[globalStyles.ctaButtonText, { color: "#fff" }]}>Add to cart</Text>
               </Pressable>
@@ -153,4 +138,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "#fff",
   },
+  imagesButton: {
+    width: 8,
+    aspectRatio: 1,
+    borderRadius: 9999,
+  },
+  textWrapper: { marginHorizontal: 24, marginTop: 24 },
 });

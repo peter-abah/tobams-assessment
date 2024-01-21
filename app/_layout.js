@@ -5,6 +5,8 @@ import { Provider } from "react-redux";
 import Home from "../components/icons/Home";
 import Menu from "../components/icons/Menu";
 import ShoppingBag from "../components/icons/ShoppingBag";
+import UserAvatar from "../components/UserAvatar";
+import { COLOR_VARIABLES } from "../globalStyles";
 
 export default function AppLayout() {
   return (
@@ -15,22 +17,12 @@ export default function AppLayout() {
         screenOptions={{
           tabBarLabelStyle: { fontSize: 14 },
           headerShown: false,
-          tabBarStyle: {
-            paddingTop: 16,
-            paddingBottom: 16,
-            paddingHorizontal: 16,
-            height: 83,
-            borderTopLeftRadius: 8,
-            borderTopRightRadius: 8,
-            borderTopColor: "#e1e5e9",
-            borderStyle: "solid",
-            borderTopWidth: 1,
-          },
-          tabBarItemStyle: styles.tabBarItemStyle,
+          tabBarStyle: styles.tabBar,
+          tabBarItemStyle: styles.tabBarItem,
           tabBarIconStyle: { width: 0, flex: 1 },
           tabBarLabelPosition: "below-icon",
-          tabBarActiveTintColor: "#DB3C25",
-          tabBarInactiveTintColor: "#858585",
+          tabBarActiveTintColor: COLOR_VARIABLES.brand,
+          tabBarInactiveTintColor: COLOR_VARIABLES.fadeOutText,
         }}
       >
         <Tabs.Screen
@@ -38,7 +30,7 @@ export default function AppLayout() {
           options={{
             title: "Home",
             tabBarIcon: ({ color }) => <Home stroke={color} />,
-            tabBarItemStyle: [styles.tabBarItemStyle, { marginLeft: "auto" }],
+            tabBarItemStyle: [styles.tabBarItem, { marginLeft: "auto" }],
           }}
         />
         <Tabs.Screen
@@ -56,8 +48,8 @@ export default function AppLayout() {
           name="account"
           options={{
             title: "Account",
-            tabBarIcon: ({ color }) => <ShoppingBag stroke={color} />,
-            tabBarItemStyle: [styles.tabBarItemStyle, { marginRight: "auto" }],
+            tabBarIcon: () => <UserAvatar />,
+            tabBarItemStyle: [styles.tabBarItem, { marginRight: "auto" }],
           }}
         />
         <Tabs.Screen
@@ -73,12 +65,23 @@ export default function AppLayout() {
 }
 
 const styles = StyleSheet.create({
-  tabBarItemStyle: {
+  tabBarItem: {
     flex: 1,
     padding: 8,
     gap: 8,
     marginRight: 20,
     fontSize: 14,
     flex: undefined,
+  },
+  tabBar: {
+    paddingTop: 16,
+    paddingBottom: 16,
+    paddingHorizontal: 16,
+    height: 83,
+    borderTopLeftRadius: 8,
+    borderTopRightRadius: 8,
+    borderTopColor: COLOR_VARIABLES.border,
+    borderStyle: "solid",
+    borderTopWidth: 1,
   },
 });

@@ -9,7 +9,6 @@ const Plus = (props) => (
     {...props}
   >
     <Path
-      stroke="#151515"
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth={1.5}
